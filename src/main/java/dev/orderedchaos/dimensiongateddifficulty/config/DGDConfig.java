@@ -1,19 +1,13 @@
 package dev.orderedchaos.dimensiongateddifficulty.config;
 
 import dev.orderedchaos.dimensiongateddifficulty.DimensionGatedDifficulty;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
-import net.minecraftforge.registries.ForgeRegistries;
-
-import java.util.List;
-import java.util.Set;
 
 @Mod.EventBusSubscriber(modid = DimensionGatedDifficulty.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class Config {
+public class DGDConfig {
   private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
 
   public static final ForgeConfigSpec.DoubleValue DEFAULT_HEALTH_MODIFIER = BUILDER

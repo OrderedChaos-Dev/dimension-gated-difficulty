@@ -1,24 +1,23 @@
-package dev.orderedchaos.dimensiongateddifficulty;
+package dev.orderedchaos.dimensiongateddifficulty.level;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DifficultySavedData extends SavedData {
+public class DGDSavedData extends SavedData {
 
-  private Set<String> visitedDimensions = new HashSet<>();
+  private final Set<String> visitedDimensions = new HashSet<>();
 
-  public static DifficultySavedData create() {
-    return new DifficultySavedData();
+  public static DGDSavedData create() {
+    return new DGDSavedData();
   }
 
-  public static DifficultySavedData load(CompoundTag tag) {
-    DifficultySavedData data = DifficultySavedData.create();
+  public static DGDSavedData load(CompoundTag tag) {
+    DGDSavedData data = DGDSavedData.create();
     data.visitedDimensions.addAll(tag.getAllKeys());
 
     return data;
@@ -49,8 +48,8 @@ public class DifficultySavedData extends SavedData {
     return visitedDimensions.toString();
   }
 
-  public static DifficultySavedData getOrCreate(MinecraftServer server) {
+  public static DGDSavedData getOrCreate(MinecraftServer server) {
     DimensionDataStorage dataStorage = server.overworld().getDataStorage();
-    return dataStorage.computeIfAbsent(DifficultySavedData::load, DifficultySavedData::create, "dimension_dated_difficulty");
+    return dataStorage.computeIfAbsent(DGDSavedData::load, DGDSavedData::create, "dimension_dated_difficulty");
   }
 }
