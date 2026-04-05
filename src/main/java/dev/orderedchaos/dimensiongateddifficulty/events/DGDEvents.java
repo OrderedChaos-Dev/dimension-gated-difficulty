@@ -6,14 +6,15 @@ import dev.orderedchaos.dimensiongateddifficulty.util.DGDUtils;
 import net.minecraft.commands.Commands;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -43,26 +44,34 @@ public class DGDEvents {
   }
 
   @SubscribeEvent
-  public static void updateMobStats(EntityJoinLevelEvent event) {
-    if (event.getEntity() instanceof Player) return;
+  public static void updateMobStats(MobSpawnEvent.FinalizeSpawn event) {
     if (event.getLevel().isClientSide()) return;
+    Mob entity = event.getEntity();
 
-    if (event.getEntity() instanceof LivingEntity livingEntity) {
-      // max health
-      double healthModifier = DGDUtils.getHealthModifier(event.getEntity().getServer());
-      AttributeInstance maxHealth = livingEntity.getAttribute(Attributes.MAX_HEALTH);
-      if (maxHealth != null) {
-        double newMaxHealth = maxHealth.getBaseValue() * healthModifier;
-        maxHealth.setBaseValue(maxHealth.getBaseValue() * healthModifier);
-        livingEntity.setHealth((float) newMaxHealth);
-      }
-
-      // attack damage
-      double damageModifier = DGDUtils.getDamageModifier(event.getEntity().getServer());
-      AttributeInstance damage = livingEntity.getAttribute(Attributes.ATTACK_DAMAGE);
-      if (damage != null) {
-        damage.setBaseValue(damage.getBaseValue() * damageModifier);
-      }
+    // max health
+    double healthModifier = DGDUtils.getHealthModifier(event.getEntity().getServer());
+    AttributeInstance maxHealth = entity.getAttribute(Attributes.MAX_HEALTH);
+    if (maxHealth != null) {
+      double newMaxHealth = maxHealth.getBaseValue() * healthModifier;
+      maxHealth.setBaseValue(maxHealth.getBaseValue() * healthModifier);
+      entity.setHealth((float) newMaxHealth);
     }
+
+    // attack damage
+    double damageModifier = DGDUtils.getDamageModifier(event.getEntity().getServer());
+    AttributeInstance damage = entity.getAttribute(Attributes.ATTACK_DAMAGE);
+    if (damage != null) {
+      damage.setBaseValue(damage.getBaseValue() * damageModifier);
+    }
+  }
+
+  @SubscribeEvent
+  public static void serverStopping(ServerStoppingEvent event) {
+    DGDUtils.clearCaches();
+  }
+
+  @SubscribeEvent
+  public static void serverAboutToStart(ServerAboutToStartEvent event) {
+    DGDUtils.clearCaches();
   }
 }
