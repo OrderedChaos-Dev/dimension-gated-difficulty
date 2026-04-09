@@ -1,9 +1,6 @@
 package dev.orderedchaos.dimensiongateddifficulty.config;
 
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import dev.orderedchaos.dimensiongateddifficulty.DimensionGatedDifficulty;
 import net.minecraftforge.fml.loading.FMLPaths;
 
@@ -39,8 +36,8 @@ public class DGDSettingsLoader {
     root.forEach((element) -> {
       JsonObject object = element.getAsJsonObject();
       String dimension = object.getAsJsonPrimitive("dimension").getAsString();
-      double healthModifier = object.getAsJsonPrimitive(("healthModifier")).getAsDouble();
-      double damageModifier = object.getAsJsonPrimitive(("damageModifier")).getAsDouble();
+      double healthModifier = object.getAsJsonPrimitive("healthModifier").getAsDouble();
+      double damageModifier = object.getAsJsonPrimitive("damageModifier").getAsDouble();
       if(dimensionConfigs.putIfAbsent(dimension, new DimensionConfig(dimension, healthModifier, damageModifier)) == null) {
         DimensionGatedDifficulty.LOGGER.info(
           "Registered new dimension difficulty setting [{}] (healthModifier={}, damageModifier={})",

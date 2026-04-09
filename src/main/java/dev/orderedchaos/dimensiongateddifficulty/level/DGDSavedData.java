@@ -6,6 +6,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class DGDSavedData extends SavedData {
@@ -48,8 +49,13 @@ public class DGDSavedData extends SavedData {
     return visitedDimensions.toString();
   }
 
+  public List<String> asList() {
+    return this.visitedDimensions.stream().toList();
+  }
+
   public static DGDSavedData getOrCreate(MinecraftServer server) {
     DimensionDataStorage dataStorage = server.overworld().getDataStorage();
+    // TODO: fix this typo in 1.0 release lol
     return dataStorage.computeIfAbsent(DGDSavedData::load, DGDSavedData::create, "dimension_dated_difficulty");
   }
 }

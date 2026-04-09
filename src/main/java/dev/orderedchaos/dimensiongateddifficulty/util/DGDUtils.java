@@ -9,6 +9,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class DGDUtils {
@@ -39,6 +41,10 @@ public class DGDUtils {
     Set<String> visitedDimensions = DGDSavedData.getOrCreate(server).getVisitedDimensions();
     double modifier = 1;
     for (String dimension : visitedDimensions) {
+      if (DGDConfig.DIMENSION_BLACKLIST.get().contains(dimension) || DGDConfig.DIMENSION_MOD_BLACKLIST.get().contains(dimension.split(":")[0])) {
+        continue;
+      }
+
       DGDSettingsLoader.DimensionConfig config = DGDSettingsLoader.dimensionConfigs.get(dimension);
       if (config != null) {
         modifier += config.healthModifier();
@@ -53,6 +59,10 @@ public class DGDUtils {
     Set<String> visitedDimensions = DGDSavedData.getOrCreate(server).getVisitedDimensions();
     double modifier = 1;
     for (String dimension : visitedDimensions) {
+      if (DGDConfig.DIMENSION_BLACKLIST.get().contains(dimension) || DGDConfig.DIMENSION_MOD_BLACKLIST.get().contains(dimension.split(":")[0])) {
+        continue;
+      }
+
       DGDSettingsLoader.DimensionConfig config = DGDSettingsLoader.dimensionConfigs.get(dimension);
       if (config != null) {
         modifier += config.damageModifier();
@@ -66,8 +76,11 @@ public class DGDUtils {
   public static int listVisitedDimensions(CommandContext<CommandSourceStack> context) {
     Player player = context.getSource().getPlayer();
     if (player != null) {
-      String visitedDimensions = DGDSavedData.getOrCreate(context.getSource().getServer()).toString();
-      Component component = Component.literal(visitedDimensions);
+      List<String> visitedDimensions = DGDSavedData.getOrCreate(context.getSource().getServer()).asList();
+      List<String> filteredDimensions = visitedDimensions.stream().filter(dimension ->
+        !DGDConfig.DIMENSION_BLACKLIST.get().contains(dimension) && !DGDConfig.DIMENSION_MOD_BLACKLIST.get().contains(dimension.split(":")[0])
+      ).toList();
+      Component component = Component.literal(filteredDimensions.toString());
       player.sendSystemMessage(component);
     }
 
