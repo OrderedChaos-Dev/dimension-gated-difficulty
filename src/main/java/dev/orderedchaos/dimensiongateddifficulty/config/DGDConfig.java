@@ -20,6 +20,10 @@ public class DGDConfig {
     .comment("Default damage modifier")
     .defineInRange("Default Damage Modifier", 0.1, 0, 1000);
 
+  public static final ForgeConfigSpec.DoubleValue DEFAULT_EXPERIENCE_MODIFIER = BUILDER
+    .comment("Default experience modifier")
+    .defineInRange("Default Experience Modifier", 0.2, 0, 1000);
+
   public static final ForgeConfigSpec.ConfigValue<List<? extends String>> DIMENSION_BLACKLIST = BUILDER
     .comment("Dimension blacklist - these dimensions are ignored when calculating difficulty")
     .defineList("Dimension blacklist", List.of(), (str) -> str instanceof String);
