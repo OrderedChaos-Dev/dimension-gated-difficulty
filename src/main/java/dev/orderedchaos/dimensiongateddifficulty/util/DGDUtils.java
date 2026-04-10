@@ -47,7 +47,7 @@ public class DGDUtils {
 
   private static double calculateHealthModifier(MinecraftServer server) {
     Set<String> visitedDimensions = DGDSavedData.getOrCreate(server).getVisitedDimensions();
-    double modifier = 1;
+    double modifier = 1 + DGDConfig.BASE_HEALTH_MODIFIER.get();
     for (String dimension : visitedDimensions) {
       if (DGDConfig.DIMENSION_BLACKLIST.get().contains(dimension) || DGDConfig.DIMENSION_MOD_BLACKLIST.get().contains(dimension.split(":")[0])) {
         continue;
@@ -66,7 +66,7 @@ public class DGDUtils {
 
   private static double calculateDamageModifier(MinecraftServer server) {
     Set<String> visitedDimensions = DGDSavedData.getOrCreate(server).getVisitedDimensions();
-    double modifier = 1;
+    double modifier = 1 + DGDConfig.BASE_DAMAGE_MODIFIER.get();
     for (String dimension : visitedDimensions) {
       if (DGDConfig.DIMENSION_BLACKLIST.get().contains(dimension) || DGDConfig.DIMENSION_MOD_BLACKLIST.get().contains(dimension.split(":")[0])) {
         continue;
@@ -85,7 +85,7 @@ public class DGDUtils {
 
   private static double calculateExperienceModifier(MinecraftServer server) {
     Set<String> visitedDimensions = DGDSavedData.getOrCreate(server).getVisitedDimensions();
-    double modifier = 1;
+    double modifier = 1 + DGDConfig.BASE_EXPERIENCE_MODIFIER.get();
     for (String dimension : visitedDimensions) {
       if (DGDConfig.DIMENSION_BLACKLIST.get().contains(dimension) || DGDConfig.DIMENSION_MOD_BLACKLIST.get().contains(dimension.split(":")[0])) {
         continue;

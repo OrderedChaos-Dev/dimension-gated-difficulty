@@ -24,6 +24,18 @@ public class DGDConfig {
     .comment("Default experience modifier")
     .defineInRange("Default Experience Modifier", 0.2, 0, 1000);
 
+  public static final ForgeConfigSpec.DoubleValue BASE_HEALTH_MODIFIER = BUILDER
+    .comment("Base health modifier - applies regardless of dimensions visited")
+    .defineInRange("Base Health Modifier", 0.0, 0, 1000);
+
+  public static final ForgeConfigSpec.DoubleValue BASE_DAMAGE_MODIFIER = BUILDER
+    .comment("Base damage modifier - applies regardless of dimensions visited")
+    .defineInRange("Base Damage Modifier", 0.0, 0, 1000);
+
+  public static final ForgeConfigSpec.DoubleValue BASE_EXPERIENCE_MODIFIER = BUILDER
+    .comment("Base experience modifier - applies regardless of dimensions visited")
+    .defineInRange("Base Experience Modifier", 0.0, 0, 1000);
+
   public static final ForgeConfigSpec.ConfigValue<List<? extends String>> DIMENSION_BLACKLIST = BUILDER
     .comment("Dimension blacklist - these dimensions are ignored when calculating difficulty")
     .defineList("Dimension blacklist", List.of(), (str) -> str instanceof String);
