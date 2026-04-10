@@ -10,7 +10,9 @@ import java.util.List;
 
 @Mod.EventBusSubscriber(modid = DimensionGatedDifficulty.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class DGDConfig {
-  private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
+  private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder()
+    .comment("Modifier values represent a percentage increase")
+    .comment("For example, 0.2 = 20% increase");
 
   public static final ForgeConfigSpec.DoubleValue DEFAULT_HEALTH_MODIFIER = BUILDER
     .comment("Default health modifier")
